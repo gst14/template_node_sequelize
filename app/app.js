@@ -3,6 +3,7 @@ import { greatting, giveMeYourName } from "./middlewares/validations.js";
 import dotenv from "dotenv";
 import { db } from "./models/index.js";
 const { sequelize } = db;
+import { router } from "./routes/routes.js";
 // import * as path from 'path';
 // https://stackoverflow.com/questions/41553291/can-you-import-nodes-path-module-using-import-path-from-path
 
@@ -17,13 +18,10 @@ const PORT = process.env.PORT;
 
 app.use(greatting, giveMeYourName);
 
-app.get("/", (req, res) => {
-  res.json({ msg: `Hey ${req.body.name}! 🥰` });
-});
+app.use(router);
 
 app.listen(PORT, async () => {
   console.log(`Servidor activo en puerto ${PORT}`);
-  await sequelize.sync({ force: true })
-  console.log('DB connection succesfull');
-  
+  await sequelize.sync({ force: true });
+  console.log("DB connection succesfull");
 });
